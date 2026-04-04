@@ -22,8 +22,7 @@ WP Guardian helps agencies and freelancers prevent costly admin mistakes by addi
 * Admin dashboard for quick operations
 * Multisite network controls for super admins
 
-Documentation: https://wordpress.org/plugins/wp-guardian/
-Support: https://wordpress.org/support/plugin/wp-guardian/
+
 
 == Frequently Asked Questions ==
 
