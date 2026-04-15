@@ -13,8 +13,8 @@ This folder provides a practical smoke/integration checklist for disposable test
 
 1. **Activation + schema**
    - Activate plugin and verify both tables exist:
-     - `wp_guardian_logs`
-     - `wp_guardian_backups`
+     - `wp_guard_logs`
+     - `wp_guard_backups`
 2. **Manual full backup**
    - Run `WP Guard backup --type=full`
    - Confirm new backup row and ZIP file.
