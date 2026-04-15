@@ -2,14 +2,14 @@
 /**
  * REST API layer.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_API {
+class wpguard_API {
 	/**
 	 * Init hooks.
 	 *
@@ -81,7 +81,7 @@ class WPGuardian_API {
 	 * @return bool
 	 */
 	public static function permissions_pro_manage() {
-		return current_user_can( 'manage_options' ) && WPGuardian_License::is_pro_active();
+		return current_user_can( 'manage_options' ) && wpguard_License::is_pro_active();
 	}
 
 	/**
@@ -94,9 +94,9 @@ class WPGuardian_API {
 		$type = $request->get_param( 'type' );
 		if ( 'partial' === $type ) {
 			$post_id = absint( $request->get_param( 'post_id' ) );
-			$result  = WPGuardian_Backup::create_partial_backup( $post_id );
+			$result  = wpguard_Backup::create_partial_backup( $post_id );
 		} else {
-			$result = WPGuardian_Backup::create_full_backup( true );
+			$result = wpguard_Backup::create_full_backup( true );
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -114,7 +114,7 @@ class WPGuardian_API {
 	 */
 	public static function api_trigger_restore( WP_REST_Request $request ) {
 		$backup_id = absint( $request['id'] );
-		$result    = WPGuardian_Restore::restore_backup( $backup_id );
+		$result    = wpguard_Restore::restore_backup( $backup_id );
 		if ( is_wp_error( $result ) ) {
 			return new WP_REST_Response( array( 'success' => false, 'error' => $result->get_error_message() ), 400 );
 		}
@@ -137,13 +137,13 @@ class WPGuardian_API {
 			'offset'    => absint( $request->get_param( 'offset' ) ),
 		);
 
-		$cache_key = 'wpguardian_logs_' . md5( wp_json_encode( $filters ) );
+		$cache_key = 'wpguard_logs_' . md5( wp_json_encode( $filters ) );
 		$cached    = get_transient( $cache_key );
 		if ( false !== $cached ) {
 			return new WP_REST_Response( array( 'success' => true, 'logs' => $cached, 'cached' => true ), 200 );
 		}
 
-		$logs = WPGuardian_Activity_Log::fetch_logs( $filters );
+		$logs = wpguard_Activity_Log::fetch_logs( $filters );
 		set_transient( $cache_key, $logs, MINUTE_IN_SECONDS );
 
 		return new WP_REST_Response( array( 'success' => true, 'logs' => $logs ), 200 );
@@ -155,12 +155,12 @@ class WPGuardian_API {
 	 * @return WP_REST_Response
 	 */
 	public static function api_license_status() {
-		$settings = get_option( 'wpguardian_settings', array() );
-		$status   = WPGuardian_License::verify_license( isset( $settings['license_key'] ) ? $settings['license_key'] : '' );
+		$settings = get_option( 'wpguard_settings', array() );
+		$status   = wpguard_License::verify_license( isset( $settings['license_key'] ) ? $settings['license_key'] : '' );
 		return new WP_REST_Response(
 			array(
 				'success' => true,
-				'pro'     => WPGuardian_License::is_pro_active(),
+				'pro'     => wpguard_License::is_pro_active(),
 				'license' => $status,
 			),
 			200

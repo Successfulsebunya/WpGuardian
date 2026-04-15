@@ -2,14 +2,14 @@
 /**
  * Security and safe-mode controls.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Security {
+class wpguard_Security {
 	/**
 	 * Init hooks.
 	 *
@@ -84,7 +84,7 @@ class WPGuardian_Security {
 		}
 
 		update_option(
-			'wpguardian_recovery_notice',
+			'wpguard_recovery_notice',
 			array(
 				'time'    => time(),
 				'message' => sanitize_text_field( $error['message'] ),
@@ -102,13 +102,13 @@ class WPGuardian_Security {
 			return;
 		}
 
-		$notice = get_option( 'wpguardian_recovery_notice', array() );
+		$notice = get_option( 'wpguard_recovery_notice', array() );
 		if ( empty( $notice['time'] ) ) {
 			return;
 		}
 
-		$backups = WPGuardian_Backup::list_backups( 1 );
-		$link    = admin_url( 'admin.php?page=wpguardian-backups' );
+		$backups = wpguard_Backup::list_backups( 1 );
+		$link    = admin_url( 'admin.php?page=wpguard-backups' );
 
 		echo '<div class="notice notice-error"><p>';
 		echo esc_html__( 'WP Guard detected a recent fatal error.', 'wp-guard' ) . ' ';
@@ -128,12 +128,12 @@ class WPGuardian_Security {
 	 */
 	public static function is_safe_mode_enabled() {
 		if ( is_multisite() ) {
-			$network_settings = get_site_option( 'wpguardian_network_settings', array() );
+			$network_settings = get_site_option( 'wpguard_network_settings', array() );
 			if ( ! empty( $network_settings['force_safe_mode'] ) ) {
 				return true;
 			}
 		}
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		return ! empty( $settings['safe_mode'] );
 	}
 }

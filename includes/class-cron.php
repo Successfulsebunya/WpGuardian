@@ -2,22 +2,22 @@
 /**
  * Cron tasks.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Cron {
+class wpguard_Cron {
 	/**
 	 * Init cron hooks.
 	 *
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'wpguardian_daily_backup_event', array( __CLASS__, 'run_daily_backup' ) );
-		add_action( 'wpguardian_cleanup_event', array( __CLASS__, 'run_cleanup' ) );
+		add_action( 'wpguard_daily_backup_event', array( __CLASS__, 'run_daily_backup' ) );
+		add_action( 'wpguard_cleanup_event', array( __CLASS__, 'run_cleanup' ) );
 	}
 
 	/**
@@ -26,9 +26,9 @@ class WPGuardian_Cron {
 	 * @return void
 	 */
 	public static function run_daily_backup() {
-		$result = WPGuardian_Backup::create_full_backup( false );
+		$result = wpguard_Backup::create_full_backup( false );
 		if ( is_wp_error( $result ) ) {
-			WPGuardian_Activity_Log::write( 'cron_backup_failed', 'cron', 0, 0 );
+			wpguard_Activity_Log::write( 'cron_backup_failed', 'cron', 0, 0 );
 		}
 	}
 
@@ -39,7 +39,7 @@ class WPGuardian_Cron {
 	 */
 	public static function run_cleanup() {
 		global $wpdb;
-		$settings       = get_option( 'wpguardian_settings', array() );
+		$settings       = get_option( 'wpguard_settings', array() );
 		$retention_days = isset( $settings['retention_days'] ) ? max( 7, absint( $settings['retention_days'] ) ) : 30;
 		$cutoff         = gmdate( 'Y-m-d H:i:s', time() - ( DAY_IN_SECONDS * $retention_days ) );
 
@@ -55,7 +55,7 @@ class WPGuardian_Cron {
 
 		if ( ! empty( $old_backups ) ) {
 			foreach ( $old_backups as $backup ) {
-				$path = WPGuardian_Backup::get_backup_dir() . $backup['file_path'];
+				$path = wpguard_Backup::get_backup_dir() . $backup['file_path'];
 				if ( file_exists( $path ) ) {
 					wp_delete_file( $path );
 				}

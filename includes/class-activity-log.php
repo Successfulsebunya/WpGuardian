@@ -2,14 +2,14 @@
 /**
  * Activity logging service.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Activity_Log {
+class wpguard_Activity_Log {
 	/**
 	 * Init hooks.
 	 *
@@ -145,7 +145,7 @@ class WPGuardian_Activity_Log {
 	 * @return array
 	 */
 	public static function register_personal_data_exporter( $exporters ) {
-		$exporters['wpguardian-activity-log'] = array(
+		$exporters['wpguard-activity-log'] = array(
 			'exporter_friendly_name' => __( 'WP Guard Activity Logs', 'wp-guard' ),
 			'callback'               => array( __CLASS__, 'privacy_data_exporter' ),
 		);
@@ -159,7 +159,7 @@ class WPGuardian_Activity_Log {
 	 * @return array
 	 */
 	public static function register_personal_data_eraser( $erasers ) {
-		$erasers['wpguardian-activity-log'] = array(
+		$erasers['wpguard-activity-log'] = array(
 			'eraser_friendly_name' => __( 'WP Guard Activity Logs', 'wp-guard' ),
 			'callback'             => array( __CLASS__, 'privacy_data_eraser' ),
 		);
@@ -200,9 +200,9 @@ class WPGuardian_Activity_Log {
 		$data_to_export = array();
 		foreach ( $rows as $row ) {
 			$data_to_export[] = array(
-				'group_id'    => 'wpguardian-activity-log',
+				'group_id'    => 'wpguard-activity-log',
 				'group_label' => __( 'WP Guard Activity Logs', 'wp-guard' ),
-				'item_id'     => 'wpguardian-log-' . (int) $row['id'],
+				'item_id'     => 'wpguard-log-' . (int) $row['id'],
 				'data'        => array(
 					array( 'name' => __( 'Action', 'wp-guard' ), 'value' => $row['action'] ),
 					array( 'name' => __( 'Object Type', 'wp-guard' ), 'value' => $row['object_type'] ),

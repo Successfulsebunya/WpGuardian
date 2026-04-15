@@ -3,10 +3,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="wrap wpguardian-wrap">
+<div class="wrap wpguard-wrap">
 	<h1><?php esc_html_e( 'WP Guard Settings', 'wp-guard' ); ?></h1>
 	<?php
-	$notice_key   = isset( $_GET['wpguardian_notice'] ) ? sanitize_text_field( wp_unslash( $_GET['wpguardian_notice'] ) ) : '';
+	$notice_key   = isset( $_GET['wpguard_notice'] ) ? sanitize_text_field( wp_unslash( $_GET['wpguard_notice'] ) ) : '';
 	$notice_class = '';
 	$notice_text  = '';
 	if ( 'license_check_ok' === $notice_key ) {
@@ -27,11 +27,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="notice <?php echo esc_attr( $notice_class ); ?> is-dismissible"><p><?php echo esc_html( $notice_text ); ?></p></div>
 	<?php endif; ?>
 
-	<form method="post" class="wpguardian-settings-form">
-		<?php wp_nonce_field( 'wpguardian_admin_action', 'wpguardian_nonce' ); ?>
-		<input type="hidden" name="wpguardian_action" value="save_settings" />
+	<form method="post" class="wpguard-settings-form">
+		<?php wp_nonce_field( 'wpguard_admin_action', 'wpguard_nonce' ); ?>
+		<input type="hidden" name="wpguard_action" value="save_settings" />
 
-		<div class="wpguardian-card">
+		<div class="wpguard-card">
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Retention (days)', 'wp-guard' ); ?></th>
@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Plan', 'wp-guard' ); ?></th>
 				<td>
-					<?php if ( WPGuardian_License::is_pro_active() ) : ?>
+					<?php if ( wpguard_License::is_pro_active() ) : ?>
 						<span class="dashicons dashicons-yes-alt"></span> <?php esc_html_e( 'Pro active', 'wp-guard' ); ?>
 					<?php else : ?>
 						<?php esc_html_e( 'Free version active. Pro hooks are ready.', 'wp-guard' ); ?>
@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php submit_button( __( 'Save Settings', 'wp-guard' ) ); ?>
 	</form>
 
-	<div class="wpguardian-card wpguardian-license-health">
+	<div class="wpguard-card wpguard-license-health">
 		<h2><?php esc_html_e( 'License Health', 'wp-guard' ); ?></h2>
 		<p><strong><?php esc_html_e( 'Current Status:', 'wp-guard' ); ?></strong> <?php echo esc_html( isset( $license_health['status'] ) ? $license_health['status'] : 'unknown' ); ?></p>
 		<p><strong><?php esc_html_e( 'Grace Mode:', 'wp-guard' ); ?></strong> <?php echo ! empty( $license_health['is_grace_mode'] ) ? esc_html__( 'Enabled', 'wp-guard' ) : esc_html__( 'Disabled', 'wp-guard' ); ?></p>
@@ -105,8 +105,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<p><strong><?php esc_html_e( 'Next Retry:', 'wp-guard' ); ?></strong> <?php echo ! empty( $license_health['next_retry_at'] ) ? esc_html( gmdate( 'Y-m-d H:i:s', (int) $license_health['next_retry_at'] ) . ' UTC' ) : esc_html__( 'Not scheduled', 'wp-guard' ); ?></p>
 		<p><strong><?php esc_html_e( 'Retry Count:', 'wp-guard' ); ?></strong> <?php echo esc_html( (string) ( isset( $license_health['retry_count'] ) ? (int) $license_health['retry_count'] : 0 ) ); ?></p>
 		<form method="post">
-			<?php wp_nonce_field( 'wpguardian_admin_action', 'wpguardian_nonce' ); ?>
-			<input type="hidden" name="wpguardian_action" value="retry_license_check" />
+			<?php wp_nonce_field( 'wpguard_admin_action', 'wpguard_nonce' ); ?>
+			<input type="hidden" name="wpguard_action" value="retry_license_check" />
 			<button class="button button-secondary" type="submit"><?php esc_html_e( 'Retry License Check Now', 'wp-guard' ); ?></button>
 		</form>
 	</div>

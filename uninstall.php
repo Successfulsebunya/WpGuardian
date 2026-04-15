@@ -2,7 +2,7 @@
 /**
  * Uninstall plugin.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
@@ -16,7 +16,7 @@ global $wpdb;
  *
  * @return void
  */
-function wpguardian_uninstall_for_blog() {
+function wpguard_uninstall_for_blog() {
 	global $wpdb;
 
 	$logs_table    = $wpdb->prefix . 'guardian_logs';
@@ -25,8 +25,8 @@ function wpguardian_uninstall_for_blog() {
 	$wpdb->query( "DROP TABLE IF EXISTS {$logs_table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	$wpdb->query( "DROP TABLE IF EXISTS {$backups_table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
-	delete_option( 'wpguardian_settings' );
-	delete_option( 'wpguardian_restore_checkpoint' );
+	delete_option( 'wpguard_settings' );
+	delete_option( 'wpguard_restore_checkpoint' );
 
 	$upload_dir = wp_upload_dir();
 	$dir        = trailingslashit( $upload_dir['basedir'] ) . 'wp-guard-backups/';
@@ -56,13 +56,13 @@ if ( is_multisite() ) {
 	);
 	foreach ( $site_ids as $site_id ) {
 		switch_to_blog( (int) $site_id );
-		wpguardian_uninstall_for_blog();
+		wpguard_uninstall_for_blog();
 		restore_current_blog();
 	}
 } else {
-	wpguardian_uninstall_for_blog();
+	wpguard_uninstall_for_blog();
 }
 
 if ( is_multisite() ) {
-	delete_site_option( 'wpguardian_network_settings' );
+	delete_site_option( 'wpguard_network_settings' );
 }

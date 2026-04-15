@@ -2,14 +2,14 @@
 /**
  * Plugin activation logic.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Activator {
+class wpguard_Activator {
 	/**
 	 * Activate plugin.
 	 *
@@ -96,7 +96,7 @@ class WPGuardian_Activator {
 	 * @return void
 	 */
 	private static function create_backup_directory() {
-		$backup_dir = WPGuardian_Backup::get_backup_dir();
+		$backup_dir = wpguard_Backup::get_backup_dir();
 		wp_mkdir_p( $backup_dir );
 
 		$index_file = $backup_dir . 'index.php';
@@ -158,7 +158,7 @@ class WPGuardian_Activator {
 			'last_backup_status'  => 'never',
 		);
 
-		add_option( 'wpguardian_settings', $defaults );
+		add_option( 'wpguard_settings', $defaults );
 	}
 
 	/**
@@ -167,16 +167,16 @@ class WPGuardian_Activator {
 	 * @return void
 	 */
 	private static function schedule_events() {
-		if ( ! wp_next_scheduled( 'wpguardian_daily_backup_event' ) ) {
-			wp_schedule_event( time() + MINUTE_IN_SECONDS, 'daily', 'wpguardian_daily_backup_event' );
+		if ( ! wp_next_scheduled( 'wpguard_daily_backup_event' ) ) {
+			wp_schedule_event( time() + MINUTE_IN_SECONDS, 'daily', 'wpguard_daily_backup_event' );
 		}
 
-		if ( ! wp_next_scheduled( 'wpguardian_cleanup_event' ) ) {
-			wp_schedule_event( time() + ( 2 * MINUTE_IN_SECONDS ), 'daily', 'wpguardian_cleanup_event' );
+		if ( ! wp_next_scheduled( 'wpguard_cleanup_event' ) ) {
+			wp_schedule_event( time() + ( 2 * MINUTE_IN_SECONDS ), 'daily', 'wpguard_cleanup_event' );
 		}
 
-		if ( ! wp_next_scheduled( 'wpguardian_license_health_event' ) ) {
-			wp_schedule_event( time() + ( 3 * MINUTE_IN_SECONDS ), 'hourly', 'wpguardian_license_health_event' );
+		if ( ! wp_next_scheduled( 'wpguard_license_health_event' ) ) {
+			wp_schedule_event( time() + ( 3 * MINUTE_IN_SECONDS ), 'hourly', 'wpguard_license_health_event' );
 		}
 	}
 }

@@ -2,14 +2,14 @@
 /**
  * Plugin deactivation logic.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Deactivator {
+class wpguard_Deactivator {
 	/**
 	 * Deactivate plugin.
 	 *
@@ -41,9 +41,9 @@ class WPGuardian_Deactivator {
 	 * @return void
 	 */
 	private static function clear_scheduled_hooks() {
-		wp_clear_scheduled_hook( 'wpguardian_daily_backup_event' );
-		wp_clear_scheduled_hook( 'wpguardian_cleanup_event' );
-		wp_clear_scheduled_hook( 'wpguardian_license_health_event' );
-		wp_clear_scheduled_hook( 'wpguardian_license_retry_event' );
+		wp_clear_scheduled_hook( 'wpguard_daily_backup_event' );
+		wp_clear_scheduled_hook( 'wpguard_cleanup_event' );
+		wp_clear_scheduled_hook( 'wpguard_license_health_event' );
+		wp_clear_scheduled_hook( 'wpguard_license_retry_event' );
 	}
 }

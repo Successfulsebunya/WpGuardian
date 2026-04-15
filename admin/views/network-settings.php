@@ -3,19 +3,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="wrap wpguardian-wrap">
+<div class="wrap wpguard-wrap">
 	<h1><?php esc_html_e( 'WP Guard Network Settings', 'wp-guard' ); ?></h1>
 	<?php
-	$notice_key = isset( $_GET['wpguardian_notice'] ) ? sanitize_text_field( wp_unslash( $_GET['wpguardian_notice'] ) ) : '';
+	$notice_key = isset( $_GET['wpguard_notice'] ) ? sanitize_text_field( wp_unslash( $_GET['wpguard_notice'] ) ) : '';
 	if ( 'network_settings_saved' === $notice_key ) :
 		?>
 		<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Network settings saved.', 'wp-guard' ); ?></p></div>
 	<?php endif; ?>
 
 	<form method="post">
-		<?php wp_nonce_field( 'wpguardian_admin_action', 'wpguardian_nonce' ); ?>
-		<input type="hidden" name="wpguardian_action" value="save_network_settings" />
-		<div class="wpguardian-card">
+		<?php wp_nonce_field( 'wpguard_admin_action', 'wpguard_nonce' ); ?>
+		<input type="hidden" name="wpguard_action" value="save_network_settings" />
+		<div class="wpguard-card">
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Force Safe Mode', 'wp-guard' ); ?></th>

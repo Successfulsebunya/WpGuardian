@@ -3,11 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="wrap wpguardian-wrap">
+<div class="wrap wpguard-wrap">
 	<h1><?php esc_html_e( 'WP Guard Network Overview', 'wp-guard' ); ?></h1>
 	<p><?php esc_html_e( 'Cross-site health visibility for multisite installations.', 'wp-guard' ); ?></p>
-	<form method="get" class="wpguardian-filter-row">
-		<input type="hidden" name="page" value="wpguardian-network" />
+	<form method="get" class="wpguard-filter-row">
+		<input type="hidden" name="page" value="wpguard-network" />
 		<input type="search" name="s" placeholder="<?php esc_attr_e( 'Search sites', 'wp-guard' ); ?>" value="<?php echo isset( $_GET['s'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['s'] ) ) ) : ''; ?>" />
 		<select name="safe_mode_filter">
 			<option value=""><?php esc_html_e( 'All Safe Mode States', 'wp-guard' ); ?></option>
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<button class="button"><?php esc_html_e( 'Filter', 'wp-guard' ); ?></button>
 	</form>
 
-	<div class="wpguardian-table">
+	<div class="wpguard-table">
 	<table class="widefat striped">
 		<thead>
 			<tr>

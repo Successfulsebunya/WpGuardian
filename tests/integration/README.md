@@ -33,7 +33,7 @@ This folder provides a practical smoke/integration checklist for disposable test
    - Validate non-admin roles cannot install plugins/themes.
 7. **Cron cleanup**
    - Set low retention in settings (test site only).
-   - Trigger cleanup: `wp cron event run wpguardian_cleanup_event`
+   - Trigger cleanup: `wp cron event run wpguard_cleanup_event`
    - Confirm old rows/files are pruned.
 
 ## Conflict simulation

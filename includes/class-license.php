@@ -2,22 +2,22 @@
 /**
  * License service.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_License {
+class wpguard_License {
 	/**
 	 * Register hooks.
 	 *
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'wpguardian_license_retry_event', array( __CLASS__, 'run_retry_verification' ) );
-		add_action( 'wpguardian_license_health_event', array( __CLASS__, 'run_scheduled_health_check' ) );
+		add_action( 'wpguard_license_retry_event', array( __CLASS__, 'run_retry_verification' ) );
+		add_action( 'wpguard_license_health_event', array( __CLASS__, 'run_scheduled_health_check' ) );
 	}
 
 	/**
@@ -29,7 +29,7 @@ class WPGuardian_License {
 	 */
 	public static function verify_license( $license_key, $force = false ) {
 		if ( is_multisite() ) {
-			$network_settings = get_site_option( 'wpguardian_network_settings', array() );
+			$network_settings = get_site_option( 'wpguard_network_settings', array() );
 			if ( ! empty( $network_settings['force_license_override'] ) && ! empty( $network_settings['override_license_key'] ) ) {
 				$license_key = $network_settings['override_license_key'];
 			}
@@ -44,7 +44,7 @@ class WPGuardian_License {
 			);
 		}
 
-		$cache_key = 'wpguardian_license_' . md5( $license_key );
+		$cache_key = 'wpguard_license_' . md5( $license_key );
 		if ( ! $force ) {
 			$cached = get_transient( $cache_key );
 			if ( is_array( $cached ) ) {
@@ -52,18 +52,18 @@ class WPGuardian_License {
 			}
 		}
 
-		$endpoint = apply_filters( 'wpguardian_license_endpoint', 'https://license.wpguardian.example/verify' );
+		$endpoint = apply_filters( 'wpguard_license_endpoint', 'https://license.wpguard.example/verify' );
 		$args     = array(
 			'timeout' => 15,
 			'body'    => array(
 				'license_key' => $license_key,
 				'site_url'    => home_url(),
 				'product'     => 'wp-guard',
-				'version'     => WPGUARDIAN_VERSION,
+				'version'     => wpguard_VERSION,
 			),
 		);
 
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		$response = wp_remote_post( esc_url_raw( $endpoint ), $args );
 		if ( is_wp_error( $response ) ) {
 			$result = self::build_failed_result( 'request_failed', $response->get_error_message() );
@@ -102,7 +102,7 @@ class WPGuardian_License {
 	 * @return void
 	 */
 	public static function run_retry_verification() {
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		if ( empty( $settings['license_key'] ) ) {
 			return;
 		}
@@ -115,7 +115,7 @@ class WPGuardian_License {
 	 * @return void
 	 */
 	public static function run_scheduled_health_check() {
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		if ( empty( $settings['license_key'] ) ) {
 			return;
 		}
@@ -170,10 +170,10 @@ class WPGuardian_License {
 		$settings['license_retry_count']   = $retry_count;
 		$settings['license_next_retry_at'] = $next;
 		$settings['license_last_checked_at'] = time();
-		update_option( 'wpguardian_settings', $settings );
+		update_option( 'wpguard_settings', $settings );
 
-		if ( ! wp_next_scheduled( 'wpguardian_license_retry_event' ) ) {
-			wp_schedule_single_event( $next, 'wpguardian_license_retry_event' );
+		if ( ! wp_next_scheduled( 'wpguard_license_retry_event' ) ) {
+			wp_schedule_single_event( $next, 'wpguard_license_retry_event' );
 		}
 	}
 
@@ -191,7 +191,7 @@ class WPGuardian_License {
 		if ( ! empty( $result['active'] ) ) {
 			$settings['license_last_success_at'] = time();
 		}
-		update_option( 'wpguardian_settings', $settings );
+		update_option( 'wpguard_settings', $settings );
 	}
 
 	/**
@@ -200,11 +200,11 @@ class WPGuardian_License {
 	 * @return bool
 	 */
 	public static function is_pro_active() {
-		if ( WPGUARDIAN_IS_PRO ) {
+		if ( wpguard_IS_PRO ) {
 			return true;
 		}
 
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		if ( empty( $settings['pro_features_enabled'] ) ) {
 			return false;
 		}

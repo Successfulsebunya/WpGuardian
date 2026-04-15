@@ -2,14 +2,14 @@
 /**
  * Admin page rendering and actions.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Admin_Pages {
+class wpguard_Admin_Pages {
 	/**
 	 * Init hooks.
 	 *
@@ -26,26 +26,26 @@ class WPGuardian_Admin_Pages {
 	 */
 	public static function handle_post_actions() {
 		$action = '';
-		if ( ! empty( $_POST['wpguardian_action'] ) ) {
-			$action = sanitize_text_field( wp_unslash( $_POST['wpguardian_action'] ) );
+		if ( ! empty( $_POST['wpguard_action'] ) ) {
+			$action = sanitize_text_field( wp_unslash( $_POST['wpguard_action'] ) );
 		}
 
 		if ( 'save_network_settings' === $action ) {
 			if ( ! is_multisite() || ! current_user_can( 'manage_network_options' ) ) {
 				return;
 			}
-			check_admin_referer( 'wpguardian_admin_action', 'wpguardian_nonce' );
-			$network_settings = get_site_option( 'wpguardian_network_settings', array() );
+			check_admin_referer( 'wpguard_admin_action', 'wpguard_nonce' );
+			$network_settings = get_site_option( 'wpguard_network_settings', array() );
 			$network_settings['force_safe_mode']        = isset( $_POST['force_safe_mode'] ) ? 1 : 0;
 			$network_settings['lock_site_settings']     = isset( $_POST['lock_site_settings'] ) ? 1 : 0;
 			$network_settings['force_license_override'] = isset( $_POST['force_license_override'] ) ? 1 : 0;
 			$network_settings['override_license_key']   = isset( $_POST['override_license_key'] ) ? sanitize_text_field( wp_unslash( $_POST['override_license_key'] ) ) : '';
-			update_site_option( 'wpguardian_network_settings', $network_settings );
+			update_site_option( 'wpguard_network_settings', $network_settings );
 			self::redirect_with_notice( 'network_settings_saved', true );
 		}
 
 		if ( is_multisite() ) {
-			$network_settings = get_site_option( 'wpguardian_network_settings', array() );
+			$network_settings = get_site_option( 'wpguard_network_settings', array() );
 			if ( ! empty( $network_settings['lock_site_settings'] ) && ! current_user_can( 'manage_network_options' ) ) {
 				if ( in_array( $action, array( 'save_settings' ), true ) ) {
 					self::redirect_with_notice( 'network_lock_enabled' );
@@ -61,29 +61,29 @@ class WPGuardian_Admin_Pages {
 			return;
 		}
 
-		check_admin_referer( 'wpguardian_admin_action', 'wpguardian_nonce' );
+		check_admin_referer( 'wpguard_admin_action', 'wpguard_nonce' );
 
 		if ( 'create_full_backup' === $action ) {
-			$result = WPGuardian_Backup::create_full_backup( true );
+			$result = wpguard_Backup::create_full_backup( true );
 			self::redirect_with_notice( is_wp_error( $result ) ? 'backup_failed' : 'backup_created' );
 		}
 
 		if ( 'restore_backup' === $action ) {
 			$backup_id = isset( $_POST['backup_id'] ) ? absint( $_POST['backup_id'] ) : 0;
-			$result    = WPGuardian_Restore::restore_backup( $backup_id );
+			$result    = wpguard_Restore::restore_backup( $backup_id );
 			self::redirect_with_notice( is_wp_error( $result ) ? 'restore_failed' : 'restore_ok' );
 		}
 
 		if ( 'resume_restore' === $action ) {
-			if ( ! WPGuardian_License::is_pro_active() ) {
+			if ( ! wpguard_License::is_pro_active() ) {
 				self::redirect_with_notice( 'pro_required' );
 			}
-			$result = WPGuardian_Restore::resume_restore();
+			$result = wpguard_Restore::resume_restore();
 			self::redirect_with_notice( is_wp_error( $result ) ? 'restore_resume_failed' : 'restore_resumed' );
 		}
 
 		if ( 'download_backup' === $action ) {
-			if ( ! WPGuardian_License::is_pro_active() ) {
+			if ( ! wpguard_License::is_pro_active() ) {
 				self::redirect_with_notice( 'pro_required' );
 			}
 			$backup_id = isset( $_POST['backup_id'] ) ? absint( $_POST['backup_id'] ) : 0;
@@ -91,7 +91,7 @@ class WPGuardian_Admin_Pages {
 		}
 
 		if ( 'save_settings' === $action ) {
-			$settings = get_option( 'wpguardian_settings', array() );
+			$settings = get_option( 'wpguard_settings', array() );
 			$settings['retention_days']    = isset( $_POST['retention_days'] ) ? max( 7, absint( $_POST['retention_days'] ) ) : 30;
 			$settings['safe_mode']         = isset( $_POST['safe_mode'] ) ? 1 : 0;
 			$settings['allow_file_backup'] = isset( $_POST['allow_file_backup'] ) ? 1 : 0;
@@ -100,26 +100,26 @@ class WPGuardian_Admin_Pages {
 			$settings['alerts_enabled']    = isset( $_POST['alerts_enabled'] ) ? 1 : 0;
 			$settings['alert_email']       = isset( $_POST['alert_email'] ) ? sanitize_email( wp_unslash( $_POST['alert_email'] ) ) : '';
 			$settings['license_key']       = isset( $_POST['license_key'] ) ? sanitize_text_field( wp_unslash( $_POST['license_key'] ) ) : '';
-			$license_check = WPGuardian_License::verify_license( $settings['license_key'], true );
+			$license_check = wpguard_License::verify_license( $settings['license_key'], true );
 			$settings['pro_features_enabled'] = ! empty( $license_check['active'] ) ? 1 : 0;
 			$settings['license_status']       = isset( $license_check['status'] ) ? sanitize_key( $license_check['status'] ) : 'inactive';
 			$settings['license_message']      = isset( $license_check['message'] ) ? sanitize_text_field( $license_check['message'] ) : '';
 			$settings['license_expires_at']   = isset( $license_check['expires_at'] ) ? sanitize_text_field( $license_check['expires_at'] ) : '';
 
-			update_option( 'wpguardian_settings', $settings );
+			update_option( 'wpguard_settings', $settings );
 			self::redirect_with_notice( 'settings_saved' );
 		}
 
 		if ( 'retry_license_check' === $action ) {
-			$settings = get_option( 'wpguardian_settings', array() );
+			$settings = get_option( 'wpguard_settings', array() );
 			$key      = isset( $settings['license_key'] ) ? $settings['license_key'] : '';
-			$check    = WPGuardian_License::verify_license( $key, true );
+			$check    = wpguard_License::verify_license( $key, true );
 
 			$settings['pro_features_enabled'] = ! empty( $check['active'] ) ? 1 : 0;
 			$settings['license_status']       = isset( $check['status'] ) ? sanitize_key( $check['status'] ) : 'inactive';
 			$settings['license_message']      = isset( $check['message'] ) ? sanitize_text_field( $check['message'] ) : '';
 			$settings['license_expires_at']   = isset( $check['expires_at'] ) ? sanitize_text_field( $check['expires_at'] ) : '';
-			update_option( 'wpguardian_settings', $settings );
+			update_option( 'wpguard_settings', $settings );
 
 			self::redirect_with_notice( ! empty( $check['active'] ) ? 'license_check_ok' : 'license_check_failed' );
 		}
@@ -132,10 +132,10 @@ class WPGuardian_Admin_Pages {
 	 * @return void
 	 */
 	public static function render_dashboard() {
-		$logs    = WPGuardian_Activity_Log::fetch_logs( array( 'limit' => 10 ) );
-		$backups = WPGuardian_Backup::list_backups( 5 );
-		$status  = get_option( 'wpguardian_settings', array() );
-		include WPGUARDIAN_PLUGIN_DIR . 'admin/views/dashboard.php';
+		$logs    = wpguard_Activity_Log::fetch_logs( array( 'limit' => 10 ) );
+		$backups = wpguard_Backup::list_backups( 5 );
+		$status  = get_option( 'wpguard_settings', array() );
+		include wpguard_PLUGIN_DIR . 'admin/views/dashboard.php';
 	}
 
 	/**
@@ -144,8 +144,8 @@ class WPGuardian_Admin_Pages {
 	 * @return void
 	 */
 	public static function render_backups() {
-		$backups = WPGuardian_Backup::list_backups( 100 );
-		include WPGUARDIAN_PLUGIN_DIR . 'admin/views/backups.php';
+		$backups = wpguard_Backup::list_backups( 100 );
+		include wpguard_PLUGIN_DIR . 'admin/views/backups.php';
 	}
 
 	/**
@@ -162,8 +162,8 @@ class WPGuardian_Admin_Pages {
 			'limit'     => 100,
 			'offset'    => 0,
 		);
-		$logs = WPGuardian_Activity_Log::fetch_logs( $filters );
-		include WPGUARDIAN_PLUGIN_DIR . 'admin/views/logs.php';
+		$logs = wpguard_Activity_Log::fetch_logs( $filters );
+		include wpguard_PLUGIN_DIR . 'admin/views/logs.php';
 	}
 
 	/**
@@ -172,8 +172,8 @@ class WPGuardian_Admin_Pages {
 	 * @return void
 	 */
 	public static function render_settings() {
-		$settings = get_option( 'wpguardian_settings', array() );
-		$license  = WPGuardian_License::verify_license( isset( $settings['license_key'] ) ? $settings['license_key'] : '' );
+		$settings = get_option( 'wpguard_settings', array() );
+		$license  = wpguard_License::verify_license( isset( $settings['license_key'] ) ? $settings['license_key'] : '' );
 		$license_health = array(
 			'status'          => isset( $license['status'] ) ? $license['status'] : 'unknown',
 			'is_grace_mode'   => isset( $license['status'] ) && 'degraded' === $license['status'],
@@ -182,7 +182,7 @@ class WPGuardian_Admin_Pages {
 			'next_retry_at'   => isset( $settings['license_next_retry_at'] ) ? absint( $settings['license_next_retry_at'] ) : 0,
 			'retry_count'     => isset( $settings['license_retry_count'] ) ? absint( $settings['license_retry_count'] ) : 0,
 		);
-		include WPGUARDIAN_PLUGIN_DIR . 'admin/views/settings.php';
+		include wpguard_PLUGIN_DIR . 'admin/views/settings.php';
 	}
 
 	/**
@@ -218,7 +218,7 @@ class WPGuardian_Admin_Pages {
 			$logs_count    = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$logs_table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$backups_count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$backups_table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$latest_backup = $wpdb->get_var( "SELECT created_at FROM {$backups_table} ORDER BY id DESC LIMIT 1" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$settings      = get_option( 'wpguardian_settings', array() );
+			$settings      = get_option( 'wpguard_settings', array() );
 
 			$safe_mode_enabled = ! empty( $settings['safe_mode'] );
 			$row = array(
@@ -245,7 +245,7 @@ class WPGuardian_Admin_Pages {
 			restore_current_blog();
 		}
 
-		include WPGUARDIAN_PLUGIN_DIR . 'admin/views/network-dashboard.php';
+		include wpguard_PLUGIN_DIR . 'admin/views/network-dashboard.php';
 	}
 
 	/**
@@ -257,8 +257,8 @@ class WPGuardian_Admin_Pages {
 		if ( ! is_multisite() || ! current_user_can( 'manage_network_options' ) ) {
 			wp_die( esc_html__( 'You are not allowed to access this page.', 'wp-guard' ) );
 		}
-		$network_settings = get_site_option( 'wpguardian_network_settings', array() );
-		include WPGUARDIAN_PLUGIN_DIR . 'admin/views/network-settings.php';
+		$network_settings = get_site_option( 'wpguard_network_settings', array() );
+		include wpguard_PLUGIN_DIR . 'admin/views/network-settings.php';
 	}
 
 	/**
@@ -275,7 +275,7 @@ class WPGuardian_Admin_Pages {
 			self::redirect_with_notice( 'download_missing' );
 		}
 
-		$file = WPGuardian_Backup::get_backup_dir() . $backup['file_path'];
+		$file = wpguard_Backup::get_backup_dir() . $backup['file_path'];
 		if ( ! file_exists( $file ) || ! is_readable( $file ) ) {
 			self::redirect_with_notice( 'download_missing' );
 		}
@@ -297,8 +297,8 @@ class WPGuardian_Admin_Pages {
 	 */
 	private static function redirect_with_notice( $notice, $network = false ) {
 		$referrer = wp_get_referer();
-		$target   = $referrer ? $referrer : ( $network ? network_admin_url( 'admin.php?page=wpguardian-network-settings' ) : admin_url( 'admin.php?page=wpguardian-dashboard' ) );
-		$target   = add_query_arg( 'wpguardian_notice', sanitize_text_field( $notice ), $target );
+		$target   = $referrer ? $referrer : ( $network ? network_admin_url( 'admin.php?page=wpguard-network-settings' ) : admin_url( 'admin.php?page=wpguard-dashboard' ) );
+		$target   = add_query_arg( 'wpguard_notice', sanitize_text_field( $notice ), $target );
 		wp_safe_redirect( $target );
 		exit;
 	}

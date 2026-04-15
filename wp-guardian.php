@@ -11,24 +11,24 @@
  * Text Domain: wp-guard
  * Domain Path: /languages
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPGUARDIAN_VERSION', '1.9.2' );
-define( 'WPGUARDIAN_PLUGIN_FILE', __FILE__ );
-define( 'WPGUARDIAN_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'WPGUARDIAN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'WPGUARDIAN_BACKUP_DIR', trailingslashit( wp_upload_dir()['basedir'] ) . 'wp-guard-backups/' );
-define( 'WPGUARDIAN_BACKUP_URL', trailingslashit( wp_upload_dir()['baseurl'] ) . 'wp-guard-backups/' );
-define( 'WPGUARDIAN_IS_PRO', false );
+define( 'wpguard_VERSION', '1.9.2' );
+define( 'wpguard_PLUGIN_FILE', __FILE__ );
+define( 'wpguard_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'wpguard_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'wpguard_BACKUP_DIR', trailingslashit( wp_upload_dir()['basedir'] ) . 'wp-guard-backups/' );
+define( 'wpguard_BACKUP_URL', trailingslashit( wp_upload_dir()['baseurl'] ) . 'wp-guard-backups/' );
+define( 'wpguard_IS_PRO', false );
 
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-loader.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-loader.php';
 
-register_activation_hook( __FILE__, array( 'WPGuardian_Activator', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'WPGuardian_Deactivator', 'deactivate' ) );
+register_activation_hook( __FILE__, array( 'wpguard_Activator', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'wpguard_Deactivator', 'deactivate' ) );
 
-WPGuardian_Loader::init();
+wpguard_Loader::init();

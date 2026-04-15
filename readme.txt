@@ -1,5 +1,5 @@
 === WP Guard - Client Protection & Recovery System ===
-Contributors: wpguardian
+Contributors: wpguard
 Tags: backup, recovery, security, activity-log, client-safe
 Requires at least: 6.1
 Tested up to: 6.6
@@ -66,8 +66,8 @@ When data is sent:
 * On scheduled license health checks
 
 Default endpoint:
-* `https://license.wpguardian.example/verify`
-* Can be changed via `wpguardian_license_endpoint` filter
+* `https://license.wpguard.example/verify`
+* Can be changed via `wpguard_license_endpoint` filter
 * Service terms URL: https://wordpress.org/plugins/wp-guard/
 * Service privacy URL: https://wordpress.org/plugins/wp-guard/
 

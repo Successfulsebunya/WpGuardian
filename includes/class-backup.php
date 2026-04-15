@@ -2,14 +2,14 @@
 /**
  * Backup engine.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Backup {
+class wpguard_Backup {
 	/**
 	 * Get current site backup directory.
 	 *
@@ -81,7 +81,7 @@ class WPGuardian_Backup {
 			return $db_dump;
 		}
 
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		if ( ! empty( $settings['allow_file_backup'] ) ) {
 			self::export_selected_files( $temp_dir . 'files.zip' );
 		}
@@ -98,8 +98,8 @@ class WPGuardian_Backup {
 		}
 
 		$backup_id = self::store_backup_record( 'full', $zip_name );
-		update_option( 'wpguardian_settings', array_merge( $settings, array( 'last_backup_status' => 'ok' ) ) );
-		WPGuardian_Activity_Log::write( $manual ? 'backup_full_manual' : 'backup_full_auto', 'backup', $backup_id, get_current_user_id() );
+		update_option( 'wpguard_settings', array_merge( $settings, array( 'last_backup_status' => 'ok' ) ) );
+		wpguard_Activity_Log::write( $manual ? 'backup_full_manual' : 'backup_full_auto', 'backup', $backup_id, get_current_user_id() );
 
 		return $backup_id;
 	}
@@ -113,7 +113,7 @@ class WPGuardian_Backup {
 	public static function create_partial_backup( $post_id ) {
 		$post = get_post( $post_id );
 		if ( ! $post ) {
-			$error = new WP_Error( 'wpguardian_post_missing', __( 'Post not found.', 'wp-guard' ) );
+			$error = new WP_Error( 'wpguard_post_missing', __( 'Post not found.', 'wp-guard' ) );
 			self::notify_failure( $error->get_error_message(), 'partial' );
 			return $error;
 		}
@@ -137,13 +137,13 @@ class WPGuardian_Backup {
 
 		$written = file_put_contents( $file_path, wp_json_encode( $payload ) );
 		if ( false === $written ) {
-			$error = new WP_Error( 'wpguardian_partial_write_failed', __( 'Could not write partial backup file.', 'wp-guard' ) );
+			$error = new WP_Error( 'wpguard_partial_write_failed', __( 'Could not write partial backup file.', 'wp-guard' ) );
 			self::notify_failure( $error->get_error_message(), 'partial' );
 			return $error;
 		}
 
 		$backup_id = self::store_backup_record( 'partial', $json_name );
-		WPGuardian_Activity_Log::write( 'backup_partial_created', 'post', $post_id, get_current_user_id() );
+		wpguard_Activity_Log::write( 'backup_partial_created', 'post', $post_id, get_current_user_id() );
 
 		return $backup_id;
 	}
@@ -159,12 +159,12 @@ class WPGuardian_Backup {
 
 		$tables = $wpdb->get_col( 'SHOW TABLES' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		if ( empty( $tables ) ) {
-			return new WP_Error( 'wpguardian_no_tables', __( 'No tables found to export.', 'wp-guard' ) );
+			return new WP_Error( 'wpguard_no_tables', __( 'No tables found to export.', 'wp-guard' ) );
 		}
 
 		$handle = fopen( $target_file, 'wb' );
 		if ( ! $handle ) {
-			return new WP_Error( 'wpguardian_sql_write_failed', __( 'Could not open database backup file.', 'wp-guard' ) );
+			return new WP_Error( 'wpguard_sql_write_failed', __( 'Could not open database backup file.', 'wp-guard' ) );
 		}
 
 		$header = "-- WP Guard SQL backup\n-- Generated: " . gmdate( 'c' ) . "\n\nSET FOREIGN_KEY_CHECKS=0;\n\n";
@@ -207,12 +207,12 @@ class WPGuardian_Backup {
 	 */
 	private static function zip_directory( $source_dir, $zip_path ) {
 		if ( ! class_exists( 'ZipArchive' ) ) {
-			return new WP_Error( 'wpguardian_zip_missing', __( 'ZipArchive extension is missing.', 'wp-guard' ) );
+			return new WP_Error( 'wpguard_zip_missing', __( 'ZipArchive extension is missing.', 'wp-guard' ) );
 		}
 
 		$zip = new ZipArchive();
 		if ( true !== $zip->open( $zip_path, ZipArchive::CREATE | ZipArchive::OVERWRITE ) ) {
-			return new WP_Error( 'wpguardian_zip_open_failed', __( 'Unable to create backup archive.', 'wp-guard' ) );
+			return new WP_Error( 'wpguard_zip_open_failed', __( 'Unable to create backup archive.', 'wp-guard' ) );
 		}
 
 		$iterator = new RecursiveIteratorIterator(
@@ -333,7 +333,7 @@ class WPGuardian_Backup {
 	 * @return void
 	 */
 	private static function notify_failure( $message, $type ) {
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		if ( empty( $settings['alerts_enabled'] ) ) {
 			return;
 		}
@@ -346,6 +346,6 @@ class WPGuardian_Backup {
 		$subject = sprintf( '[WP Guard] %s backup failed', ucfirst( sanitize_text_field( $type ) ) );
 		$body    = sprintf( "Site: %s\nType: %s\nError: %s\nTime: %s", home_url(), sanitize_text_field( $type ), sanitize_text_field( $message ), gmdate( 'c' ) );
 		wp_mail( $email, $subject, $body );
-		WPGuardian_Activity_Log::write( 'backup_failed', 'backup', 0, get_current_user_id() );
+		wpguard_Activity_Log::write( 'backup_failed', 'backup', 0, get_current_user_id() );
 	}
 }

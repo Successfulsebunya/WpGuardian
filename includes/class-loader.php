@@ -2,27 +2,27 @@
 /**
  * Main loader.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-activator.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-deactivator.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-activity-log.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-backup.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-restore.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-security.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-cron.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-api.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-cli.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'includes/class-license.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'admin/class-admin-menu.php';
-require_once WPGUARDIAN_PLUGIN_DIR . 'admin/class-admin-pages.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-activator.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-deactivator.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-activity-log.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-backup.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-restore.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-security.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-cron.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-api.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-cli.php';
+require_once wpguard_PLUGIN_DIR . 'includes/class-license.php';
+require_once wpguard_PLUGIN_DIR . 'admin/class-admin-menu.php';
+require_once wpguard_PLUGIN_DIR . 'admin/class-admin-pages.php';
 
-class WPGuardian_Loader {
+class wpguard_Loader {
 	/**
 	 * Boot plugin.
 	 *
@@ -39,7 +39,7 @@ class WPGuardian_Loader {
 	 * @return void
 	 */
 	public static function load_textdomain() {
-		load_plugin_textdomain( 'wp-guard', false, dirname( plugin_basename( WPGUARDIAN_PLUGIN_FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'wp-guard', false, dirname( plugin_basename( wpguard_PLUGIN_FILE ) ) . '/languages' );
 	}
 
 	/**
@@ -48,18 +48,18 @@ class WPGuardian_Loader {
 	 * @return void
 	 */
 	public static function boot_services() {
-		WPGuardian_Activity_Log::init();
-		WPGuardian_Backup::init();
-		WPGuardian_Restore::init();
-		WPGuardian_Security::init();
-		WPGuardian_Cron::init();
-		WPGuardian_API::init();
-		WPGuardian_CLI::init();
-		WPGuardian_License::init();
+		wpguard_Activity_Log::init();
+		wpguard_Backup::init();
+		wpguard_Restore::init();
+		wpguard_Security::init();
+		wpguard_Cron::init();
+		wpguard_API::init();
+		wpguard_CLI::init();
+		wpguard_License::init();
 
 		if ( is_admin() ) {
-			WPGuardian_Admin_Menu::init();
-			WPGuardian_Admin_Pages::init();
+			wpguard_Admin_Menu::init();
+			wpguard_Admin_Pages::init();
 		}
 	}
 }

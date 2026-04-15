@@ -3,19 +3,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="wrap wpguardian-wrap">
+<div class="wrap wpguard-wrap">
 	<h1><?php esc_html_e( 'WP Guard Backups', 'wp-guard' ); ?></h1>
-	<div class="wpguardian-toolbar">
-		<form method="post" class="wpguardian-inline-form">
-			<?php wp_nonce_field( 'wpguardian_admin_action', 'wpguardian_nonce' ); ?>
-			<input type="hidden" name="wpguardian_action" value="resume_restore" />
-			<button class="button" type="submit" <?php disabled( ! WPGuardian_License::is_pro_active() ); ?>><?php esc_html_e( 'Resume Last Restore', 'wp-guard' ); ?></button>
+	<div class="wpguard-toolbar">
+		<form method="post" class="wpguard-inline-form">
+			<?php wp_nonce_field( 'wpguard_admin_action', 'wpguard_nonce' ); ?>
+			<input type="hidden" name="wpguard_action" value="resume_restore" />
+			<button class="button" type="submit" <?php disabled( ! wpguard_License::is_pro_active() ); ?>><?php esc_html_e( 'Resume Last Restore', 'wp-guard' ); ?></button>
 		</form>
-		<?php if ( ! WPGuardian_License::is_pro_active() ) : ?>
-			<span class="wpguardian-description"><?php esc_html_e( 'Pro feature: activate a valid license to enable resume/download actions.', 'wp-guard' ); ?></span>
+		<?php if ( ! wpguard_License::is_pro_active() ) : ?>
+			<span class="wpguard-description"><?php esc_html_e( 'Pro feature: activate a valid license to enable resume/download actions.', 'wp-guard' ); ?></span>
 		<?php endif; ?>
 	</div>
-	<div class="wpguardian-table">
+	<div class="wpguard-table">
 	<table class="widefat striped">
 		<thead>
 			<tr>
@@ -37,17 +37,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<td><?php echo esc_html( $backup['file_path'] ); ?></td>
 						<td><?php echo esc_html( $backup['created_at'] ); ?></td>
 						<td>
-							<form method="post" class="wpguardian-inline-form">
-								<?php wp_nonce_field( 'wpguardian_admin_action', 'wpguardian_nonce' ); ?>
-								<input type="hidden" name="wpguardian_action" value="restore_backup" />
+							<form method="post" class="wpguard-inline-form">
+								<?php wp_nonce_field( 'wpguard_admin_action', 'wpguard_nonce' ); ?>
+								<input type="hidden" name="wpguard_action" value="restore_backup" />
 								<input type="hidden" name="backup_id" value="<?php echo esc_attr( $backup['id'] ); ?>" />
 								<button class="button button-secondary" type="submit"><?php esc_html_e( 'Restore', 'wp-guard' ); ?></button>
 							</form>
-							<form method="post" class="wpguardian-inline-form">
-								<?php wp_nonce_field( 'wpguardian_admin_action', 'wpguardian_nonce' ); ?>
-								<input type="hidden" name="wpguardian_action" value="download_backup" />
+							<form method="post" class="wpguard-inline-form">
+								<?php wp_nonce_field( 'wpguard_admin_action', 'wpguard_nonce' ); ?>
+								<input type="hidden" name="wpguard_action" value="download_backup" />
 								<input type="hidden" name="backup_id" value="<?php echo esc_attr( $backup['id'] ); ?>" />
-								<button class="button" type="submit" <?php disabled( ! WPGuardian_License::is_pro_active() ); ?>><?php esc_html_e( 'Download', 'wp-guard' ); ?></button>
+								<button class="button" type="submit" <?php disabled( ! wpguard_License::is_pro_active() ); ?>><?php esc_html_e( 'Download', 'wp-guard' ); ?></button>
 							</form>
 						</td>
 					</tr>

@@ -2,14 +2,14 @@
 /**
  * WP-CLI commands.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_CLI {
+class wpguard_CLI {
 	/**
 	 * Register CLI commands.
 	 *
@@ -47,9 +47,9 @@ class WPGuardian_CLI {
 				WP_CLI::error( 'When type=partial, --post_id is required.' );
 				return;
 			}
-			$result = WPGuardian_Backup::create_partial_backup( $post_id );
+			$result = wpguard_Backup::create_partial_backup( $post_id );
 		} else {
-			$result = WPGuardian_Backup::create_full_backup( true );
+			$result = wpguard_Backup::create_full_backup( true );
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -80,7 +80,7 @@ class WPGuardian_CLI {
 
 		if ( $resume ) {
 			$backup_id = isset( $assoc_args['id'] ) ? absint( $assoc_args['id'] ) : 0;
-			$result    = WPGuardian_Restore::resume_restore( $backup_id );
+			$result    = wpguard_Restore::resume_restore( $backup_id );
 			if ( is_wp_error( $result ) ) {
 				WP_CLI::error( $result->get_error_message() );
 				return;
@@ -95,7 +95,7 @@ class WPGuardian_CLI {
 			return;
 		}
 
-		$result = WPGuardian_Restore::restore_backup( $backup_id );
+		$result = wpguard_Restore::restore_backup( $backup_id );
 		if ( is_wp_error( $result ) ) {
 			WP_CLI::error( $result->get_error_message() );
 			return;
@@ -118,7 +118,7 @@ class WPGuardian_CLI {
 	 */
 	public static function logs_command( $args, $assoc_args ) {
 		$limit = isset( $assoc_args['limit'] ) ? absint( $assoc_args['limit'] ) : 20;
-		$logs  = WPGuardian_Activity_Log::fetch_logs( array( 'limit' => $limit ) );
+		$logs  = wpguard_Activity_Log::fetch_logs( array( 'limit' => $limit ) );
 
 		if ( empty( $logs ) ) {
 			WP_CLI::warning( 'No logs found.' );

@@ -3,11 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="wrap wpguardian-wrap">
+<div class="wrap wpguard-wrap">
 	<h1><?php esc_html_e( 'WP Guard Activity Logs', 'wp-guard' ); ?></h1>
 
-	<form method="get" class="wpguardian-filter-row">
-		<input type="hidden" name="page" value="wpguardian-logs" />
+	<form method="get" class="wpguard-filter-row">
+		<input type="hidden" name="page" value="wpguard-logs" />
 		<input type="text" name="action_filter" placeholder="<?php esc_attr_e( 'Action', 'wp-guard' ); ?>" value="<?php echo isset( $_GET['action_filter'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['action_filter'] ) ) ) : ''; ?>" />
 		<input type="number" name="user_filter" placeholder="<?php esc_attr_e( 'User ID', 'wp-guard' ); ?>" value="<?php echo isset( $_GET['user_filter'] ) ? esc_attr( absint( $_GET['user_filter'] ) ) : ''; ?>" />
 		<input type="date" name="date_from" value="<?php echo isset( $_GET['date_from'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['date_from'] ) ) ) : ''; ?>" />
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<button class="button"><?php esc_html_e( 'Filter', 'wp-guard' ); ?></button>
 	</form>
 
-	<div class="wpguardian-table">
+	<div class="wpguard-table">
 	<table class="widefat striped">
 		<thead>
 			<tr>

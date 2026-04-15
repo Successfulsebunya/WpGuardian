@@ -2,14 +2,14 @@
 /**
  * Admin menu registration.
  *
- * @package WPGuardian
+ * @package wpguard
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPGuardian_Admin_Menu {
+class wpguard_Admin_Menu {
 	/**
 	 * Init hooks.
 	 *
@@ -34,16 +34,16 @@ class WPGuardian_Admin_Menu {
 			__( 'WP Guard', 'wp-guard' ),
 			__( 'WP Guard', 'wp-guard' ),
 			$capability,
-			'wpguardian-dashboard',
-			array( 'WPGuardian_Admin_Pages', 'render_dashboard' ),
+			'wpguard-dashboard',
+			array( 'wpguard_Admin_Pages', 'render_dashboard' ),
 			'dashicons-shield-alt',
 			58
 		);
 
-		add_submenu_page( 'wpguardian-dashboard', __( 'Dashboard', 'wp-guard' ), __( 'Dashboard', 'wp-guard' ), $capability, 'wpguardian-dashboard', array( 'WPGuardian_Admin_Pages', 'render_dashboard' ) );
-		add_submenu_page( 'wpguardian-dashboard', __( 'Backups', 'wp-guard' ), __( 'Backups', 'wp-guard' ), $capability, 'wpguardian-backups', array( 'WPGuardian_Admin_Pages', 'render_backups' ) );
-		add_submenu_page( 'wpguardian-dashboard', __( 'Activity Logs', 'wp-guard' ), __( 'Activity Logs', 'wp-guard' ), $capability, 'wpguardian-logs', array( 'WPGuardian_Admin_Pages', 'render_logs' ) );
-		add_submenu_page( 'wpguardian-dashboard', __( 'Settings', 'wp-guard' ), __( 'Settings', 'wp-guard' ), $capability, 'wpguardian-settings', array( 'WPGuardian_Admin_Pages', 'render_settings' ) );
+		add_submenu_page( 'wpguard-dashboard', __( 'Dashboard', 'wp-guard' ), __( 'Dashboard', 'wp-guard' ), $capability, 'wpguard-dashboard', array( 'wpguard_Admin_Pages', 'render_dashboard' ) );
+		add_submenu_page( 'wpguard-dashboard', __( 'Backups', 'wp-guard' ), __( 'Backups', 'wp-guard' ), $capability, 'wpguard-backups', array( 'wpguard_Admin_Pages', 'render_backups' ) );
+		add_submenu_page( 'wpguard-dashboard', __( 'Activity Logs', 'wp-guard' ), __( 'Activity Logs', 'wp-guard' ), $capability, 'wpguard-logs', array( 'wpguard_Admin_Pages', 'render_logs' ) );
+		add_submenu_page( 'wpguard-dashboard', __( 'Settings', 'wp-guard' ), __( 'Settings', 'wp-guard' ), $capability, 'wpguard-settings', array( 'wpguard_Admin_Pages', 'render_settings' ) );
 	}
 
 	/**
@@ -60,28 +60,28 @@ class WPGuardian_Admin_Menu {
 			__( 'WP Guard Network', 'wp-guard' ),
 			__( 'WP Guard', 'wp-guard' ),
 			'manage_network_options',
-			'wpguardian-network',
-			array( 'WPGuardian_Admin_Pages', 'render_network_dashboard' ),
+			'wpguard-network',
+			array( 'wpguard_Admin_Pages', 'render_network_dashboard' ),
 			'dashicons-shield-alt',
 			58
 		);
 
 		add_submenu_page(
-			'wpguardian-network',
+			'wpguard-network',
 			__( 'Network Overview', 'wp-guard' ),
 			__( 'Network Overview', 'wp-guard' ),
 			'manage_network_options',
-			'wpguardian-network',
-			array( 'WPGuardian_Admin_Pages', 'render_network_dashboard' )
+			'wpguard-network',
+			array( 'wpguard_Admin_Pages', 'render_network_dashboard' )
 		);
 
 		add_submenu_page(
-			'wpguardian-network',
+			'wpguard-network',
 			__( 'Network Settings', 'wp-guard' ),
 			__( 'Network Settings', 'wp-guard' ),
 			'manage_network_options',
-			'wpguardian-network-settings',
-			array( 'WPGuardian_Admin_Pages', 'render_network_settings' )
+			'wpguard-network-settings',
+			array( 'wpguard_Admin_Pages', 'render_network_settings' )
 		);
 	}
 
@@ -92,12 +92,12 @@ class WPGuardian_Admin_Menu {
 	 * @return void
 	 */
 	public static function enqueue_assets( $hook_suffix ) {
-		if ( false === strpos( $hook_suffix, 'wpguardian' ) ) {
+		if ( false === strpos( $hook_suffix, 'wpguard' ) ) {
 			return;
 		}
 
-		wp_enqueue_style( 'wpguardian-admin', WPGUARDIAN_PLUGIN_URL . 'assets/css/admin.css', array(), WPGUARDIAN_VERSION );
-		wp_enqueue_script( 'wpguardian-admin', WPGUARDIAN_PLUGIN_URL . 'assets/js/admin.js', array(), WPGUARDIAN_VERSION, true );
+		wp_enqueue_style( 'wpguard-admin', wpguard_PLUGIN_URL . 'assets/css/admin.css', array(), wpguard_VERSION );
+		wp_enqueue_script( 'wpguard-admin', wpguard_PLUGIN_URL . 'assets/js/admin.js', array(), wpguard_VERSION, true );
 	}
 
 	/**
@@ -108,16 +108,16 @@ class WPGuardian_Admin_Menu {
 	 */
 	public static function add_theme_body_class( $classes ) {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-		if ( ! $screen || false === strpos( (string) $screen->id, 'wpguardian' ) ) {
+		if ( ! $screen || false === strpos( (string) $screen->id, 'wpguard' ) ) {
 			return $classes;
 		}
 
-		$settings = get_option( 'wpguardian_settings', array() );
+		$settings = get_option( 'wpguard_settings', array() );
 		$theme    = isset( $settings['ui_theme'] ) ? sanitize_key( $settings['ui_theme'] ) : 'auto';
 		if ( ! in_array( $theme, array( 'auto', 'light', 'dark' ), true ) ) {
 			$theme = 'auto';
 		}
 
-		return trim( $classes . ' wpguardian-theme-' . $theme );
+		return trim( $classes . ' wpguard-theme-' . $theme );
 	}
 }
