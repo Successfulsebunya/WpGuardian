@@ -192,7 +192,7 @@ class WPGuardian_Admin_Pages {
 	 */
 	public static function render_network_dashboard() {
 		if ( ! is_multisite() || ! current_user_can( 'manage_network_options' ) ) {
-			wp_die( esc_html__( 'You are not allowed to access this page.', 'wp-guardian' ) );
+			wp_die( esc_html__( 'You are not allowed to access this page.', 'wp-guard' ) );
 		}
 
 		global $wpdb;
@@ -227,8 +227,8 @@ class WPGuardian_Admin_Pages {
 				'url'           => $blog_details ? $blog_details->siteurl : '',
 				'logs_count'    => $logs_count,
 				'backups_count' => $backups_count,
-				'latest_backup' => $latest_backup ? $latest_backup : __( 'Never', 'wp-guardian' ),
-				'safe_mode'     => $safe_mode_enabled ? __( 'On', 'wp-guardian' ) : __( 'Off', 'wp-guardian' ),
+				'latest_backup' => $latest_backup ? $latest_backup : __( 'Never', 'wp-guard' ),
+				'safe_mode'     => $safe_mode_enabled ? __( 'On', 'wp-guard' ) : __( 'Off', 'wp-guard' ),
 			);
 
 			if ( 'on' === $safe_mode_filter && ! $safe_mode_enabled ) {
@@ -255,7 +255,7 @@ class WPGuardian_Admin_Pages {
 	 */
 	public static function render_network_settings() {
 		if ( ! is_multisite() || ! current_user_can( 'manage_network_options' ) ) {
-			wp_die( esc_html__( 'You are not allowed to access this page.', 'wp-guardian' ) );
+			wp_die( esc_html__( 'You are not allowed to access this page.', 'wp-guard' ) );
 		}
 		$network_settings = get_site_option( 'wpguardian_network_settings', array() );
 		include WPGUARDIAN_PLUGIN_DIR . 'admin/views/network-settings.php';

@@ -4,32 +4,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wrap wpguardian-wrap">
-	<h1><?php esc_html_e( 'WP Guardian Activity Logs', 'wp-guardian' ); ?></h1>
+	<h1><?php esc_html_e( 'WP Guard Activity Logs', 'wp-guard' ); ?></h1>
 
 	<form method="get" class="wpguardian-filter-row">
 		<input type="hidden" name="page" value="wpguardian-logs" />
-		<input type="text" name="action_filter" placeholder="<?php esc_attr_e( 'Action', 'wp-guardian' ); ?>" value="<?php echo isset( $_GET['action_filter'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['action_filter'] ) ) ) : ''; ?>" />
-		<input type="number" name="user_filter" placeholder="<?php esc_attr_e( 'User ID', 'wp-guardian' ); ?>" value="<?php echo isset( $_GET['user_filter'] ) ? esc_attr( absint( $_GET['user_filter'] ) ) : ''; ?>" />
+		<input type="text" name="action_filter" placeholder="<?php esc_attr_e( 'Action', 'wp-guard' ); ?>" value="<?php echo isset( $_GET['action_filter'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['action_filter'] ) ) ) : ''; ?>" />
+		<input type="number" name="user_filter" placeholder="<?php esc_attr_e( 'User ID', 'wp-guard' ); ?>" value="<?php echo isset( $_GET['user_filter'] ) ? esc_attr( absint( $_GET['user_filter'] ) ) : ''; ?>" />
 		<input type="date" name="date_from" value="<?php echo isset( $_GET['date_from'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['date_from'] ) ) ) : ''; ?>" />
 		<input type="date" name="date_to" value="<?php echo isset( $_GET['date_to'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['date_to'] ) ) ) : ''; ?>" />
-		<button class="button"><?php esc_html_e( 'Filter', 'wp-guardian' ); ?></button>
+		<button class="button"><?php esc_html_e( 'Filter', 'wp-guard' ); ?></button>
 	</form>
 
 	<div class="wpguardian-table">
 	<table class="widefat striped">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Time', 'wp-guardian' ); ?></th>
-				<th><?php esc_html_e( 'User ID', 'wp-guardian' ); ?></th>
-				<th><?php esc_html_e( 'Action', 'wp-guardian' ); ?></th>
-				<th><?php esc_html_e( 'Object Type', 'wp-guardian' ); ?></th>
-				<th><?php esc_html_e( 'Object ID', 'wp-guardian' ); ?></th>
-				<th><?php esc_html_e( 'IP', 'wp-guardian' ); ?></th>
+				<th><?php esc_html_e( 'Time', 'wp-guard' ); ?></th>
+				<th><?php esc_html_e( 'User ID', 'wp-guard' ); ?></th>
+				<th><?php esc_html_e( 'Action', 'wp-guard' ); ?></th>
+				<th><?php esc_html_e( 'Object Type', 'wp-guard' ); ?></th>
+				<th><?php esc_html_e( 'Object ID', 'wp-guard' ); ?></th>
+				<th><?php esc_html_e( 'IP', 'wp-guard' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php if ( empty( $logs ) ) : ?>
-				<tr><td colspan="6"><?php esc_html_e( 'No logs found.', 'wp-guardian' ); ?></td></tr>
+				<tr><td colspan="6"><?php esc_html_e( 'No logs found.', 'wp-guard' ); ?></td></tr>
 			<?php else : ?>
 				<?php foreach ( $logs as $log ) : ?>
 					<tr>

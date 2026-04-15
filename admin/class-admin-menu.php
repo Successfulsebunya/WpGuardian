@@ -31,8 +31,8 @@ class WPGuardian_Admin_Menu {
 		$capability = 'manage_options';
 
 		add_menu_page(
-			__( 'WP Guardian', 'wp-guardian' ),
-			__( 'WP Guardian', 'wp-guardian' ),
+			__( 'WP Guard', 'wp-guard' ),
+			__( 'WP Guard', 'wp-guard' ),
 			$capability,
 			'wpguardian-dashboard',
 			array( 'WPGuardian_Admin_Pages', 'render_dashboard' ),
@@ -40,10 +40,10 @@ class WPGuardian_Admin_Menu {
 			58
 		);
 
-		add_submenu_page( 'wpguardian-dashboard', __( 'Dashboard', 'wp-guardian' ), __( 'Dashboard', 'wp-guardian' ), $capability, 'wpguardian-dashboard', array( 'WPGuardian_Admin_Pages', 'render_dashboard' ) );
-		add_submenu_page( 'wpguardian-dashboard', __( 'Backups', 'wp-guardian' ), __( 'Backups', 'wp-guardian' ), $capability, 'wpguardian-backups', array( 'WPGuardian_Admin_Pages', 'render_backups' ) );
-		add_submenu_page( 'wpguardian-dashboard', __( 'Activity Logs', 'wp-guardian' ), __( 'Activity Logs', 'wp-guardian' ), $capability, 'wpguardian-logs', array( 'WPGuardian_Admin_Pages', 'render_logs' ) );
-		add_submenu_page( 'wpguardian-dashboard', __( 'Settings', 'wp-guardian' ), __( 'Settings', 'wp-guardian' ), $capability, 'wpguardian-settings', array( 'WPGuardian_Admin_Pages', 'render_settings' ) );
+		add_submenu_page( 'wpguardian-dashboard', __( 'Dashboard', 'wp-guard' ), __( 'Dashboard', 'wp-guard' ), $capability, 'wpguardian-dashboard', array( 'WPGuardian_Admin_Pages', 'render_dashboard' ) );
+		add_submenu_page( 'wpguardian-dashboard', __( 'Backups', 'wp-guard' ), __( 'Backups', 'wp-guard' ), $capability, 'wpguardian-backups', array( 'WPGuardian_Admin_Pages', 'render_backups' ) );
+		add_submenu_page( 'wpguardian-dashboard', __( 'Activity Logs', 'wp-guard' ), __( 'Activity Logs', 'wp-guard' ), $capability, 'wpguardian-logs', array( 'WPGuardian_Admin_Pages', 'render_logs' ) );
+		add_submenu_page( 'wpguardian-dashboard', __( 'Settings', 'wp-guard' ), __( 'Settings', 'wp-guard' ), $capability, 'wpguardian-settings', array( 'WPGuardian_Admin_Pages', 'render_settings' ) );
 	}
 
 	/**
@@ -57,8 +57,8 @@ class WPGuardian_Admin_Menu {
 		}
 
 		add_menu_page(
-			__( 'WP Guardian Network', 'wp-guardian' ),
-			__( 'WP Guardian', 'wp-guardian' ),
+			__( 'WP Guard Network', 'wp-guard' ),
+			__( 'WP Guard', 'wp-guard' ),
 			'manage_network_options',
 			'wpguardian-network',
 			array( 'WPGuardian_Admin_Pages', 'render_network_dashboard' ),
@@ -68,8 +68,8 @@ class WPGuardian_Admin_Menu {
 
 		add_submenu_page(
 			'wpguardian-network',
-			__( 'Network Overview', 'wp-guardian' ),
-			__( 'Network Overview', 'wp-guardian' ),
+			__( 'Network Overview', 'wp-guard' ),
+			__( 'Network Overview', 'wp-guard' ),
 			'manage_network_options',
 			'wpguardian-network',
 			array( 'WPGuardian_Admin_Pages', 'render_network_dashboard' )
@@ -77,8 +77,8 @@ class WPGuardian_Admin_Menu {
 
 		add_submenu_page(
 			'wpguardian-network',
-			__( 'Network Settings', 'wp-guardian' ),
-			__( 'Network Settings', 'wp-guardian' ),
+			__( 'Network Settings', 'wp-guard' ),
+			__( 'Network Settings', 'wp-guard' ),
 			'manage_network_options',
 			'wpguardian-network-settings',
 			array( 'WPGuardian_Admin_Pages', 'render_network_settings' )

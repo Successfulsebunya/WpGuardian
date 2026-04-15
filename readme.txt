@@ -1,4 +1,4 @@
-=== WP Guardian - Client Protection & Recovery System ===
+=== WP Guard - Client Protection & Recovery System ===
 Contributors: wpguardian
 Tags: backup, recovery, security, activity-log, client-safe
 Requires at least: 6.1
@@ -12,7 +12,7 @@ Protect client websites with automatic backups, restore tools, security controls
 
 == Description ==
 
-WP Guardian helps agencies and freelancers prevent costly admin mistakes by adding:
+WP Guard helps agencies and freelancers prevent costly admin mistakes by adding:
 
 * Full and partial backups
 * One-click restore with validation and rollback safety
@@ -30,27 +30,27 @@ WP Guardian helps agencies and freelancers prevent costly admin mistakes by addi
 Only if you enter a license key and run license verification. In that case, the site URL, plugin version, product identifier, and entered license key are sent to the configured license endpoint.
 
 = Does this plugin store personal data? =
-Yes. WP Guardian stores activity logs with user ID, action metadata, timestamp, and IP address for security/audit purposes.
+Yes. WP Guard stores activity logs with user ID, action metadata, timestamp, and IP address for security/audit purposes.
 
 = Is there privacy tool support? =
-Yes. WP Guardian registers WordPress personal data exporter and eraser integrations for activity log data.
+Yes. WP Guard registers WordPress personal data exporter and eraser integrations for activity log data.
 
 = Is this plugin multisite-compatible? =
-Yes. WP Guardian supports multisite, including a dedicated network dashboard and network settings for super admins.
+Yes. WP Guard supports multisite, including a dedicated network dashboard and network settings for super admins.
 
 == Privacy ==
 
-WP Guardian may store:
+WP Guard may store:
 
 * User IDs associated with logged actions
 * Action metadata and timestamps
 * IP addresses for security logging
 
-When license verification is used, WP Guardian may send data to an external license API endpoint.
+When license verification is used, WP Guard may send data to an external license API endpoint.
 
 == External Services ==
 
-WP Guardian can connect to a license verification service if a license key is provided by the admin.
+WP Guard can connect to a license verification service if a license key is provided by the admin.
 
 Service purpose:
 * Validate license status and plan eligibility
@@ -58,7 +58,7 @@ Service purpose:
 Data sent:
 * License key
 * Site URL
-* Product slug (`wp-guardian`)
+* Product slug (`wp-guard`)
 * Plugin version
 
 When data is sent:
@@ -68,14 +68,14 @@ When data is sent:
 Default endpoint:
 * `https://license.wpguardian.example/verify`
 * Can be changed via `wpguardian_license_endpoint` filter
-* Service terms URL: https://wordpress.org/plugins/wp-guardian/
-* Service privacy URL: https://wordpress.org/plugins/wp-guardian/
+* Service terms URL: https://wordpress.org/plugins/wp-guard/
+* Service privacy URL: https://wordpress.org/plugins/wp-guard/
 
 == Installation ==
 
-1. Upload `wp-guardian` folder to `/wp-content/plugins/`.
+1. Upload `wp-guard` folder to `/wp-content/plugins/`.
 2. Activate the plugin via Plugins screen.
-3. Open `WP Guardian` in admin menu.
+3. Open `WP Guard` in admin menu.
 4. Configure settings and run first backup.
 
 == Screenshots ==
@@ -90,11 +90,11 @@ Default endpoint:
 
 WP-CLI commands:
 
-* `wp guardian backup --type=full`
-* `wp guardian backup --type=partial --post_id=<id>`
-* `wp guardian restore --id=<id>`
-* `wp guardian restore --resume`
-* `wp guardian logs --limit=20`
+* `WP Guard backup --type=full`
+* `WP Guard backup --type=partial --post_id=<id>`
+* `WP Guard restore --id=<id>`
+* `WP Guard restore --resume`
+* `WP Guard logs --limit=20`
 
 == Upgrade Notice ==
 
@@ -115,13 +115,13 @@ Readme polish for WordPress.org directory submission readiness, including screen
 
 = 1.9.0 =
 * Added WordPress privacy exporter/eraser integration for activity logs.
-* Added privacy policy helper content for WP Guardian data handling.
+* Added privacy policy helper content for WP Guard data handling.
 * Improved uninstall cleanup safety and removed suppressed filesystem operations.
 * Improved network settings action handling for super-admin capability flow.
 
 = 1.8.0 =
 * Added manual admin theme mode setting (Auto/Light/Dark).
-* Added theme body class handling for WP Guardian screens.
+* Added theme body class handling for WP Guard screens.
 * Hardened settings sanitization with strict allowed values for UI theme.
 
 = 1.7.2 =
@@ -170,7 +170,7 @@ Readme polish for WordPress.org directory submission readiness, including screen
 
 = 1.3.0 =
 * Added resumable full-restore support using checkpoint state.
-* Added WP-CLI restore resume option (`wp guardian restore --resume`).
+* Added WP-CLI restore resume option (`WP Guard restore --resume`).
 * Added multisite network admin overview page for super admins.
 
 = 1.2.0 =

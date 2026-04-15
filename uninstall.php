@@ -29,7 +29,7 @@ function wpguardian_uninstall_for_blog() {
 	delete_option( 'wpguardian_restore_checkpoint' );
 
 	$upload_dir = wp_upload_dir();
-	$dir        = trailingslashit( $upload_dir['basedir'] ) . 'wp-guardian-backups/';
+	$dir        = trailingslashit( $upload_dir['basedir'] ) . 'wp-guard-backups/';
 
 	if ( is_dir( $dir ) ) {
 		$iterator = new RecursiveIteratorIterator(

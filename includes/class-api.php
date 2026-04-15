@@ -26,7 +26,7 @@ class WPGuardian_API {
 	 */
 	public static function register_routes() {
 		register_rest_route(
-			'wp-guardian/v1',
+			'wp-guard/v1',
 			'/backup',
 			array(
 				'methods'             => 'POST',
@@ -36,7 +36,7 @@ class WPGuardian_API {
 		);
 
 		register_rest_route(
-			'wp-guardian/v1',
+			'wp-guard/v1',
 			'/restore/(?P<id>\d+)',
 			array(
 				'methods'             => 'POST',
@@ -46,7 +46,7 @@ class WPGuardian_API {
 		);
 
 		register_rest_route(
-			'wp-guardian/v1',
+			'wp-guard/v1',
 			'/logs',
 			array(
 				'methods'             => 'GET',
@@ -56,7 +56,7 @@ class WPGuardian_API {
 		);
 
 		register_rest_route(
-			'wp-guardian/v1',
+			'wp-guard/v1',
 			'/license-status',
 			array(
 				'methods'             => 'GET',

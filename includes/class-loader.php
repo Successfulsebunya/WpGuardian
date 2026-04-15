@@ -39,7 +39,7 @@ class WPGuardian_Loader {
 	 * @return void
 	 */
 	public static function load_textdomain() {
-		load_plugin_textdomain( 'wp-guardian', false, dirname( plugin_basename( WPGUARDIAN_PLUGIN_FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'wp-guard', false, dirname( plugin_basename( WPGUARDIAN_PLUGIN_FILE ) ) . '/languages' );
 	}
 
 	/**

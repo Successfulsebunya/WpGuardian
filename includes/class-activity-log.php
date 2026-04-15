@@ -146,7 +146,7 @@ class WPGuardian_Activity_Log {
 	 */
 	public static function register_personal_data_exporter( $exporters ) {
 		$exporters['wpguardian-activity-log'] = array(
-			'exporter_friendly_name' => __( 'WP Guardian Activity Logs', 'wp-guardian' ),
+			'exporter_friendly_name' => __( 'WP Guard Activity Logs', 'wp-guard' ),
 			'callback'               => array( __CLASS__, 'privacy_data_exporter' ),
 		);
 		return $exporters;
@@ -160,7 +160,7 @@ class WPGuardian_Activity_Log {
 	 */
 	public static function register_personal_data_eraser( $erasers ) {
 		$erasers['wpguardian-activity-log'] = array(
-			'eraser_friendly_name' => __( 'WP Guardian Activity Logs', 'wp-guardian' ),
+			'eraser_friendly_name' => __( 'WP Guard Activity Logs', 'wp-guard' ),
 			'callback'             => array( __CLASS__, 'privacy_data_eraser' ),
 		);
 		return $erasers;
@@ -201,14 +201,14 @@ class WPGuardian_Activity_Log {
 		foreach ( $rows as $row ) {
 			$data_to_export[] = array(
 				'group_id'    => 'wpguardian-activity-log',
-				'group_label' => __( 'WP Guardian Activity Logs', 'wp-guardian' ),
+				'group_label' => __( 'WP Guard Activity Logs', 'wp-guard' ),
 				'item_id'     => 'wpguardian-log-' . (int) $row['id'],
 				'data'        => array(
-					array( 'name' => __( 'Action', 'wp-guardian' ), 'value' => $row['action'] ),
-					array( 'name' => __( 'Object Type', 'wp-guardian' ), 'value' => $row['object_type'] ),
-					array( 'name' => __( 'Object ID', 'wp-guardian' ), 'value' => (string) $row['object_id'] ),
-					array( 'name' => __( 'IP Address', 'wp-guardian' ), 'value' => $row['ip_address'] ),
-					array( 'name' => __( 'Created At', 'wp-guardian' ), 'value' => $row['created_at'] ),
+					array( 'name' => __( 'Action', 'wp-guard' ), 'value' => $row['action'] ),
+					array( 'name' => __( 'Object Type', 'wp-guard' ), 'value' => $row['object_type'] ),
+					array( 'name' => __( 'Object ID', 'wp-guard' ), 'value' => (string) $row['object_id'] ),
+					array( 'name' => __( 'IP Address', 'wp-guard' ), 'value' => $row['ip_address'] ),
+					array( 'name' => __( 'Created At', 'wp-guard' ), 'value' => $row['created_at'] ),
 				),
 			);
 		}
@@ -269,9 +269,9 @@ class WPGuardian_Activity_Log {
 			return;
 		}
 		wp_add_privacy_policy_content(
-			__( 'WP Guardian', 'wp-guardian' ),
+			__( 'WP Guard', 'wp-guard' ),
 			wp_kses_post(
-				'<p>' . esc_html__( 'WP Guardian stores activity logs (including user IDs, action metadata, timestamps, and IP addresses) to support site protection and recovery workflows.', 'wp-guardian' ) . '</p>'
+				'<p>' . esc_html__( 'WP Guard stores activity logs (including user IDs, action metadata, timestamps, and IP addresses) to support site protection and recovery workflows.', 'wp-guard' ) . '</p>'
 			)
 		);
 	}

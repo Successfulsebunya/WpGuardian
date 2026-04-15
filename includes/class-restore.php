@@ -35,12 +35,12 @@ class WPGuardian_Restore {
 		);
 
 		if ( empty( $backup ) ) {
-			return new WP_Error( 'wpguardian_backup_missing', __( 'Backup not found.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_backup_missing', __( 'Backup not found.', 'wp-guard' ) );
 		}
 
 		$file_path = WPGuardian_Backup::get_backup_dir() . $backup['file_path'];
 		if ( ! self::is_valid_backup_file( $file_path ) ) {
-			return new WP_Error( 'wpguardian_invalid_backup_file', __( 'Invalid backup file.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_invalid_backup_file', __( 'Invalid backup file.', 'wp-guard' ) );
 		}
 
 		// Rollback safety: create a full backup snapshot before restore.
@@ -72,7 +72,7 @@ class WPGuardian_Restore {
 
 		$checkpoint = self::get_restore_checkpoint();
 		if ( empty( $checkpoint['line_number'] ) ) {
-			return new WP_Error( 'wpguardian_no_checkpoint', __( 'No restore checkpoint exists.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_no_checkpoint', __( 'No restore checkpoint exists.', 'wp-guard' ) );
 		}
 
 		$resolved_backup_id = absint( $backup_id );
@@ -80,7 +80,7 @@ class WPGuardian_Restore {
 			$resolved_backup_id = absint( $checkpoint['backup_id'] );
 		}
 		if ( ! $resolved_backup_id ) {
-			return new WP_Error( 'wpguardian_checkpoint_missing_backup', __( 'Checkpoint exists but backup ID is missing.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_checkpoint_missing_backup', __( 'Checkpoint exists but backup ID is missing.', 'wp-guard' ) );
 		}
 
 		$table  = $wpdb->prefix . 'guardian_backups';
@@ -89,12 +89,12 @@ class WPGuardian_Restore {
 			ARRAY_A
 		);
 		if ( empty( $backup ) || 'full' !== $backup['backup_type'] ) {
-			return new WP_Error( 'wpguardian_resume_invalid_backup', __( 'Checkpoint backup is invalid or not a full backup.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_resume_invalid_backup', __( 'Checkpoint backup is invalid or not a full backup.', 'wp-guard' ) );
 		}
 
 		$file_path = WPGuardian_Backup::get_backup_dir() . $backup['file_path'];
 		if ( ! self::is_valid_backup_file( $file_path ) ) {
-			return new WP_Error( 'wpguardian_invalid_backup_file', __( 'Invalid backup file.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_invalid_backup_file', __( 'Invalid backup file.', 'wp-guard' ) );
 		}
 
 		return self::restore_full_archive( $file_path, (int) $checkpoint['line_number'], (int) $checkpoint['executed_count'], $resolved_backup_id );
@@ -133,13 +133,13 @@ class WPGuardian_Restore {
 		$data    = json_decode( $content, true );
 
 		if ( empty( $data['post_id'] ) || empty( $data['post_data'] ) ) {
-			return new WP_Error( 'wpguardian_invalid_partial_data', __( 'Partial backup payload is invalid.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_invalid_partial_data', __( 'Partial backup payload is invalid.', 'wp-guard' ) );
 		}
 
 		$post_id = absint( $data['post_id'] );
 		$post    = get_post( $post_id );
 		if ( ! $post ) {
-			return new WP_Error( 'wpguardian_restore_post_missing', __( 'Target post is missing.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_restore_post_missing', __( 'Target post is missing.', 'wp-guard' ) );
 		}
 
 		$updated = wp_update_post(
@@ -164,7 +164,7 @@ class WPGuardian_Restore {
 	 */
 	private static function restore_full_archive( $zip_path, $start_line = 1, $executed_count = 0, $backup_id = 0 ) {
 		if ( ! class_exists( 'ZipArchive' ) ) {
-			return new WP_Error( 'wpguardian_zip_missing', __( 'ZipArchive extension is unavailable.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_zip_missing', __( 'ZipArchive extension is unavailable.', 'wp-guard' ) );
 		}
 
 		$temp_dir = WPGuardian_Backup::get_backup_dir() . 'restore-' . wp_generate_password( 8, false, false ) . '/';
@@ -172,14 +172,14 @@ class WPGuardian_Restore {
 
 		$zip = new ZipArchive();
 		if ( true !== $zip->open( $zip_path ) ) {
-			return new WP_Error( 'wpguardian_restore_zip_open_failed', __( 'Could not open backup archive.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_restore_zip_open_failed', __( 'Could not open backup archive.', 'wp-guard' ) );
 		}
 		$zip->extractTo( $temp_dir );
 		$zip->close();
 
 		$sql_file = $temp_dir . 'database.sql';
 		if ( ! file_exists( $sql_file ) ) {
-			return new WP_Error( 'wpguardian_restore_sql_missing', __( 'No SQL dump found in backup.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_restore_sql_missing', __( 'No SQL dump found in backup.', 'wp-guard' ) );
 		}
 
 		$result = self::import_sql_file( $sql_file, (int) $start_line, (int) $executed_count, (int) $backup_id );
@@ -199,7 +199,7 @@ class WPGuardian_Restore {
 
 		$handle = fopen( $sql_file, 'rb' );
 		if ( ! $handle ) {
-			return new WP_Error( 'wpguardian_restore_sql_invalid', __( 'SQL file is empty or unreadable.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_restore_sql_invalid', __( 'SQL file is empty or unreadable.', 'wp-guard' ) );
 		}
 
 		$statement   = '';
@@ -273,7 +273,7 @@ class WPGuardian_Restore {
 		}
 
 		if ( 0 === $executed ) {
-			return new WP_Error( 'wpguardian_restore_sql_empty', __( 'No executable SQL statements were found.', 'wp-guardian' ) );
+			return new WP_Error( 'wpguardian_restore_sql_empty', __( 'No executable SQL statements were found.', 'wp-guard' ) );
 		}
 
 		delete_option( 'wpguardian_restore_checkpoint' );
@@ -330,7 +330,7 @@ class WPGuardian_Restore {
 				'wpguardian_restore_sql_exec_failed',
 				sprintf(
 					/* translators: 1: line number, 2: database error */
-					__( 'SQL restore failed near line %1$d: %2$s', 'wp-guardian' ),
+					__( 'SQL restore failed near line %1$d: %2$s', 'wp-guard' ),
 					(int) $line_number,
 					(string) $wpdb->last_error
 				)
@@ -381,7 +381,7 @@ class WPGuardian_Restore {
 			return;
 		}
 
-		$subject = '[WP Guardian] Restore failed';
+		$subject = '[WP Guard] Restore failed';
 		$body    = sprintf( "Site: %s\nError: %s\nTime: %s", home_url(), sanitize_text_field( $message ), gmdate( 'c' ) );
 		wp_mail( $email, $subject, $body );
 		WPGuardian_Activity_Log::write( 'restore_failed', 'backup', 0, get_current_user_id() );

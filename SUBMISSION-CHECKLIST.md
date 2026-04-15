@@ -1,10 +1,10 @@
-# WP Guardian WordPress.org Submission Checklist
+# WP Guard WordPress.org Submission Checklist
 
 Use this checklist before uploading to the WordPress.org plugin directory.
 
 ## 1) Metadata and Packaging
 
-- [ ] `wp-guardian.php` plugin header values are correct (`Plugin Name`, `Version`, `Requires at least`, `Requires PHP`, `Text Domain`).
+- [ ] `wp-guard.php` plugin header values are correct (`Plugin Name`, `Version`, `Requires at least`, `Requires PHP`, `Text Domain`).
 - [ ] `readme.txt` `Stable tag` matches plugin `Version`.
 - [ ] No development artifacts are included in the ZIP (temp files, local configs, debug logs).
 - [ ] Final package file is generated from plugin root only.
@@ -47,7 +47,7 @@ Use this checklist before uploading to the WordPress.org plugin directory.
 
 ## 6) i18n and Coding Standards
 
-- [ ] User-facing strings are translatable with `wp-guardian` text domain.
+- [ ] User-facing strings are translatable with `wp-guard` text domain.
 - [ ] Output is escaped (`esc_html`, `esc_attr`, `esc_url`) in views.
 - [ ] Input is sanitized (`sanitize_text_field`, `sanitize_email`, `absint`, `sanitize_key`).
 - [ ] No PHP syntax errors; no linter errors.
@@ -62,11 +62,11 @@ Use this checklist before uploading to the WordPress.org plugin directory.
 
 ## 8) Release Readiness
 
-- [ ] Current version ZIP created (example: `wp-guardian-x.y.z.zip`).
+- [ ] Current version ZIP created (example: `wp-guard-x.y.z.zip`).
 - [ ] Changelog summary prepared for release note.
 - [ ] Terms/privacy/support/doc URLs updated from placeholders to production URLs.
 
-## Notes (WP Guardian-specific)
+## Notes (WP Guard-specific)
 
 - Default license endpoint currently uses a placeholder and should be replaced or filtered for production.
 - Keep external-service disclosure synchronized with code behavior whenever endpoint/request payload changes.

@@ -111,12 +111,12 @@ class WPGuardian_Security {
 		$link    = admin_url( 'admin.php?page=wpguardian-backups' );
 
 		echo '<div class="notice notice-error"><p>';
-		echo esc_html__( 'WP Guardian detected a recent fatal error.', 'wp-guardian' ) . ' ';
+		echo esc_html__( 'WP Guard detected a recent fatal error.', 'wp-guard' ) . ' ';
 		if ( ! empty( $notice['message'] ) ) {
 			echo esc_html( $notice['message'] ) . ' ';
 		}
 		if ( ! empty( $backups ) ) {
-			echo '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Review latest backup and restore quickly.', 'wp-guardian' ) . '</a>';
+			echo '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Review latest backup and restore quickly.', 'wp-guard' ) . '</a>';
 		}
 		echo '</p></div>';
 	}

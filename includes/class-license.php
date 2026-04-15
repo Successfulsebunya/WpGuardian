@@ -40,7 +40,7 @@ class WPGuardian_License {
 			return array(
 				'active'  => false,
 				'status'  => 'empty',
-				'message' => __( 'No license key provided.', 'wp-guardian' ),
+				'message' => __( 'No license key provided.', 'wp-guard' ),
 			);
 		}
 
@@ -58,7 +58,7 @@ class WPGuardian_License {
 			'body'    => array(
 				'license_key' => $license_key,
 				'site_url'    => home_url(),
-				'product'     => 'wp-guardian',
+				'product'     => 'wp-guard',
 				'version'     => WPGUARDIAN_VERSION,
 			),
 		);
@@ -76,7 +76,7 @@ class WPGuardian_License {
 		$code = (int) wp_remote_retrieve_response_code( $response );
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( 200 !== $code || ! is_array( $body ) ) {
-			$result = self::build_failed_result( 'invalid_response', __( 'License server returned an invalid response.', 'wp-guardian' ) );
+			$result = self::build_failed_result( 'invalid_response', __( 'License server returned an invalid response.', 'wp-guard' ) );
 			$result = self::apply_grace_if_available( $result, $settings );
 			self::register_retry( $settings );
 			set_transient( $cache_key, $result, HOUR_IN_SECONDS );
@@ -150,7 +150,7 @@ class WPGuardian_License {
 		if ( ! empty( $settings['pro_features_enabled'] ) && $last_success > 0 && ( time() - $last_success ) <= $grace_window ) {
 			$result['active']  = true;
 			$result['status']  = 'degraded';
-			$result['message'] = __( 'License server unreachable. Running in grace mode temporarily.', 'wp-guardian' );
+			$result['message'] = __( 'License server unreachable. Running in grace mode temporarily.', 'wp-guard' );
 		}
 		return $result;
 	}

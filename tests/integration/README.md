@@ -1,4 +1,4 @@
-# WP Guardian Integration Test Scaffold
+# WP Guard Integration Test Scaffold
 
 This folder provides a practical smoke/integration checklist for disposable test sites.
 
@@ -7,7 +7,7 @@ This folder provides a practical smoke/integration checklist for disposable test
 - Local WordPress install (or staging clone).
 - PHP with `ZipArchive` enabled.
 - WP-CLI available.
-- Plugin active: `wp plugin activate wp-guardian`.
+- Plugin active: `wp plugin activate wp-guard`.
 
 ## Test script
 
@@ -16,17 +16,17 @@ This folder provides a practical smoke/integration checklist for disposable test
      - `wp_guardian_logs`
      - `wp_guardian_backups`
 2. **Manual full backup**
-   - Run `wp guardian backup --type=full`
+   - Run `WP Guard backup --type=full`
    - Confirm new backup row and ZIP file.
 3. **Partial backup**
    - Edit an existing post, save, confirm partial backup row.
-   - Run `wp guardian backup --type=partial --post_id=<id>`
+   - Run `WP Guard backup --type=partial --post_id=<id>`
 4. **Restore validation**
    - Pick recent backup ID.
-   - Run `wp guardian restore --id=<id>`
+   - Run `WP Guard restore --id=<id>`
    - Confirm command success and site loads.
 5. **Log integrity**
-   - Run `wp guardian logs --limit=10`
+   - Run `WP Guard logs --limit=10`
    - Ensure login/post/update events are visible.
 6. **Safe mode controls**
    - Enable Safe Mode in settings.
