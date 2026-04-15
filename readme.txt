@@ -98,10 +98,15 @@ WP-CLI commands:
 
 == Upgrade Notice ==
 
-= 1.9.2 =
-Readme polish for WordPress.org directory submission readiness, including screenshots, support links, and expanded disclosures.
+= 2.0.0 =
+* Changed the name to WP Guard.
 
 == Changelog ==
+
+= 2.0.0 =
+* Changed the name to WP Guard.
+* Changed the file structure to acoomodate new changes
+* Changed the system wide name and license files as well
 
 = 1.9.2 =
 * Added WordPress.org-style screenshots and arbitrary sections.
